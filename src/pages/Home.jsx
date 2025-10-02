@@ -171,7 +171,7 @@ const Home = () => {
               <p className="text-restaurant-cream mb-6">
                 Contacta con nosotros para una demostración personalizada
               </p>
-              <button className="btn-primary bg-white text-restaurant-earth hover:bg-restaurant-cream">
+              <button className="btn-primary bg-white text-white hover:bg-restaurant-cream">
                 📞 Solicitar Demo
               </button>
             </div>
@@ -226,13 +226,13 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/carta"
-                  className="btn-primary bg-white text-restaurant-earth hover:bg-restaurant-cream"
+                  className="btn-primary bg-white text-white hover:bg-restaurant-cream"
                 >
                   Ver Carta Completa
                 </Link>
                 <Link
                   to="/dividir-cuenta"
-                  className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-restaurant-earth"
+                  className="btn-secondary bg-transparent border-white text-restaurant-earth hover:bg-white hover:text-restaurant-earth"
                 >
                   Probar División
                 </Link>

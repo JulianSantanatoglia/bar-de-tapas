@@ -49,104 +49,6 @@ export const menuCategories = {
     ]
   },
   
-  tapas: {
-    name: "Tapas",
-    description: "Incluidas con la bebida - Tapas extra: 3€",
-    items: [
-      {
-        id: "tapa-1",
-        name: "Jamón Ibérico",
-        description: "Jamón ibérico de bellota cortado a mano",
-        price: 0,
-        category: "tapas"
-      },
-      {
-        id: "tapa-2",
-        name: "Aceitunas Aliñadas",
-        description: "Aceitunas de la zona aliñadas con hierbas aromáticas",
-        price: 0,
-        category: "tapas"
-      },
-      {
-        id: "tapa-3",
-        name: "Croquetas de Jamón",
-        description: "Croquetas caseras de jamón serrano con bechamel cremosa",
-        price: 0,
-        category: "tapas"
-      },
-      {
-        id: "tapa-4",
-        name: "Gambas al Ajillo",
-        description: "Gambas frescas al ajillo con guindilla y perejil",
-        price: 0,
-        category: "tapas"
-      },
-      {
-        id: "tapa-5",
-        name: "Queso Manchego",
-        description: "Queso manchego curado con membrillo",
-        price: 0,
-        category: "tapas"
-      },
-      {
-        id: "tapa-extra-1",
-        name: "Tapa Extra - Jamón Ibérico",
-        description: "Jamón ibérico de bellota cortado a mano",
-        price: 3.00,
-        category: "tapas"
-      },
-      {
-        id: "tapa-extra-2",
-        name: "Tapa Extra - Croquetas",
-        description: "Croquetas caseras de jamón serrano con bechamel cremosa",
-        price: 3.00,
-        category: "tapas"
-      },
-      {
-        id: "tapa-extra-3",
-        name: "Tapa Extra - Gambas al Ajillo",
-        description: "Gambas frescas al ajillo con guindilla y perejil",
-        price: 3.00,
-        category: "tapas"
-      }
-    ]
-  },
-  
-  raciones: {
-    name: "Raciones",
-    description: "Platos más generosos para compartir",
-    items: [
-      {
-        id: "racion-1",
-        name: "Paella Valenciana",
-        description: "Paella tradicional con pollo, conejo y verduras",
-        price: 18.50,
-        category: "raciones"
-      },
-      {
-        id: "racion-2",
-        name: "Pulpo a la Gallega",
-        description: "Pulpo cocido con patatas, aceite de oliva y pimentón",
-        price: 16.80,
-        category: "raciones"
-      },
-      {
-        id: "racion-3",
-        name: "Carrillada de Cerdo",
-        description: "Carrillada de cerdo ibérico estofada con verduras",
-        price: 14.90,
-        category: "raciones"
-      },
-      {
-        id: "racion-4",
-        name: "Ensalada Mixta",
-        description: "Ensalada fresca con lechuga, tomate, cebolla, atún y huevo",
-        price: 8.50,
-        category: "raciones"
-      }
-    ]
-  },
-  
   bebidas: {
     name: "Bebidas",
     description: "Refréscate con nuestras bebidas",
@@ -192,6 +94,90 @@ export const menuCategories = {
         description: "Zumo de naranja natural recién exprimido",
         price: 3.20,
         category: "bebidas"
+      },
+      {
+        id: "bebida-7",
+        name: "Refresco",
+        description: "Refresco",
+        price: 3.20,
+        category: "bebidas"
+      }
+    ]
+  },
+  
+  tapas: {
+    name: "Tapas",
+    description: "Incluidas con la bebida - Suplementos: 3€",
+    items: [
+      {
+        id: "tapa-1",
+        name: "Jamón Ibérico",
+        description: "Jamón ibérico de bellota cortado a mano",
+        price: 0,
+        category: "tapas"
+      },
+      {
+        id: "tapa-2",
+        name: "Aceitunas Aliñadas",
+        description: "Aceitunas de la zona aliñadas con hierbas aromáticas",
+        price: 0,
+        category: "tapas"
+      },
+      {
+        id: "tapa-3",
+        name: "Croquetas de Jamón",
+        description: "Croquetas caseras de jamón serrano con bechamel cremosa",
+        price: 0,
+        category: "tapas"
+      },
+      {
+        id: "tapa-4",
+        name: "Gambas al Ajillo",
+        description: "Gambas frescas al ajillo con guindilla y perejil",
+        price: 0,
+        category: "tapas"
+      },
+      {
+        id: "tapa-5",
+        name: "Queso Manchego",
+        description: "Queso manchego curado con membrillo",
+        price: 0,
+        category: "tapas"
+      }
+    ]
+  },
+  
+  raciones: {
+    name: "Raciones",
+    description: "Platos más generosos para compartir",
+    items: [
+      {
+        id: "racion-1",
+        name: "Paella Valenciana",
+        description: "Paella tradicional con pollo, conejo y verduras",
+        price: 18.50,
+        category: "raciones"
+      },
+      {
+        id: "racion-2",
+        name: "Pulpo a la Gallega",
+        description: "Pulpo cocido con patatas, aceite de oliva y pimentón",
+        price: 16.80,
+        category: "raciones"
+      },
+      {
+        id: "racion-3",
+        name: "Carrillada de Cerdo",
+        description: "Carrillada de cerdo ibérico estofada con verduras",
+        price: 14.90,
+        category: "raciones"
+      },
+      {
+        id: "racion-4",
+        name: "Ensalada Mixta",
+        description: "Ensalada fresca con lechuga, tomate, cebolla, atún y huevo",
+        price: 8.50,
+        category: "raciones"
       }
     ]
   }

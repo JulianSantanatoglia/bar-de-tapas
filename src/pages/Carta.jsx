@@ -49,9 +49,9 @@ const Carta = () => {
               const category = menuCategories[categoryKey];
               const icons = {
                 desayunos: '🌅',
+                bebidas: '🥤',
                 tapas: '🥘',
-                raciones: '🍽️',
-                bebidas: '🥤'
+                raciones: '🍽️'
               };
               return (
                 <button
@@ -97,13 +97,13 @@ const Carta = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/dividir-cuenta"
-                className="btn-primary bg-white text-restaurant-earth hover:bg-restaurant-cream"
+                className="btn-primary bg-white text-white hover:bg-restaurant-cream"
               >
                 🧮 Dividir Cuenta
               </a>
               <a
                 href="/"
-                className="btn-secondary bg-transparent border-white text-white hover:bg-white hover:text-restaurant-earth"
+                className="btn-secondary bg-transparent border-white text-restaurant-earth"
               >
                 🏠 Volver al Inicio
               </a>
