@@ -1,7 +1,7 @@
 // Datos del restaurante - fácilmente editables
 export const restaurantData = {
-  name: "Bar de Tapas",
-  description: "Sabores auténticos de Andalucía en cada bocado",
+  name: "Carta digital e inteligente",
+  description: "Siempre hay uno del grupo que hace la logística... y las cuentas",
   headerImage: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1200&h=400&fit=crop",
   
   // Información de contacto (para futuras funcionalidades)
