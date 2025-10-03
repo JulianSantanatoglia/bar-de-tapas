@@ -1,18 +1,18 @@
-# 🍽️ Bar de Tapas - Carta Digital Inteligente
+# 🍽️ Smart Cart - Carta digital inteligente
 
-Una aplicación web moderna para restaurantes que combina carta digital con sistema inteligente de división de gastos.
+Una aplicación web moderna para restaurantes que combina carta digital con sistema de división de cuentas.
 
 ## ✨ Características
 
-### 🎯 **Carta Digital**
+### 🎯 **Carta digital**
 - 📱 **Diseño responsive** optimizado para móviles
 - 🎨 **Interfaz moderna** con colores madera elegantes
 - 🏷️ **Categorías organizadas** (Desayunos, Tapas, Raciones, Bebidas)
 - 📸 **Imágenes atractivas** para mejor presentación
 
-### 💰 **División Inteligente de Gastos**
+### 💰 **División de cuentas**
 - 👥 **Sistema de comensales** (1-10 personas)
-- 📝 **Pedidos individuales** por persona
+- 📝 **Consumo individual** por persona
 - 🤝 **Platos compartidos** entre comensales específicos
 - 🧮 **Cálculo automático** de totales
 - ✏️ **Edición flexible** en cualquier momento
@@ -35,7 +35,7 @@ Una aplicación web moderna para restaurantes que combina carta digital con sist
 ```bash
 # Clonar el repositorio
 git clone [tu-repo-url]
-cd bar-de-tapas
+cd smart-cart
 
 # Instalar dependencias
 npm install
@@ -115,8 +115,8 @@ Edita `src/data.js` para personalizar:
 - Asigna nombres a cada comensal
 - Navegación intuitiva paso a paso
 
-### 2. **Sistema de Pedidos**
-- **Individual:** Solo una persona paga
+### 2. **Sistema de Consumo**
+- **Individual:** Solo una persona consume
 - **Compartir:** Dividir entre comensales específicos
 - Cantidades personalizables
 - Edición en tiempo real
@@ -139,7 +139,7 @@ Edita `src/data.js` para personalizar:
 - 🏪 **Carta digital** sin contacto
 - 📱 **QR codes** en las mesas
 - 💰 **División automática** de cuentas
-- 📊 **Mejor gestión** de pedidos
+- 📊 **Mejor experiencia** del cliente
 
 ### Para Clientes
 - 🚀 **Experiencia rápida** y moderna
@@ -155,7 +155,7 @@ src/
 │   ├── MenuItem.jsx      # Componente de producto individual
 │   ├── MenuSection.jsx   # Sección de categoría
 │   ├── Navbar.jsx        # Navegación principal
-│   └── SplitBill.jsx     # Sistema de división de gastos
+│   └── SplitBill.jsx     # Sistema de división de cuentas
 ├── pages/
 │   ├── Home.jsx          # Página principal
 │   └── Carta.jsx         # Página de carta
@@ -192,10 +192,10 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 📞 Contacto
 
-- **Proyecto:** Bar de Tapas - Carta Digital
+- **Proyecto:** Smart Cart - Carta digital
 - **Versión:** 1.0.0
 - **Tecnología:** React + Vite + Tailwind CSS
 
 ---
 
-⭐ ¡Si te gusta este proyecto, dale una estrella! ⭐# bar-de-tapas
+⭐ ¡Si te gusta este proyecto, dale una estrella! ⭐

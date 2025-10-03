@@ -38,14 +38,14 @@ function App() {
                   <span className="text-white font-bold text-sm">🍽️</span>
                 </div>
                 <span className="font-display text-xl font-bold text-white">
-                  Bar de Tapas
+                  Smart Cart
                 </span>
               </div>
               <p className="text-restaurant-cream text-sm mb-2">
-                © 2024 Bar de Tapas. Todos los derechos reservados.
+                © 2024 Smart Cart. Todos los derechos reservados.
               </p>
               <p className="text-restaurant-light-wood text-xs">
-                💻 Carta digital inteligente con división de gastos
+                💻 Carta digital inteligente con división de cuentas
               </p>
             </div>
           </div>

@@ -17,7 +17,7 @@ const Navbar = () => {
               <span className="text-white font-bold text-lg">🍽️</span>
             </div>
             <span className="font-display text-xl font-bold text-restaurant-text hover:text-restaurant-earth transition-colors">
-              Bar de Tapas
+              Smart Cart
             </span>
           </Link>
           

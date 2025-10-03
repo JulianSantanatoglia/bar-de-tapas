@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { menuCategories } from '../data';
 
 /**
@@ -6,6 +7,8 @@ import { menuCategories } from '../data';
  * Nuevo flujo: Número de comensales -> Nombres -> ¿Algo compartido? -> Seleccionar compartido -> Consumo individual -> Resumen
  */
 const SplitBill = () => {
+  const navigate = useNavigate();
+  
   // Estados principales
   const [step, setStep] = useState('setup'); // 'setup', 'names', 'shared-question', 'shared-selection', 'individual-orders', 'summary'
   const [numberOfDiners, setNumberOfDiners] = useState(4);
@@ -182,6 +185,26 @@ const SplitBill = () => {
     })));
   }, [sharedItems, sharedParticipants, individualOrders, diners]);
 
+  // Resetear el componente cuando se navega a otra página
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      resetAll();
+    };
+
+    // Escuchar cambios en la URL
+    const handlePopState = () => {
+      resetAll();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   // Actualizar nombre del comensal
   const updateDinerName = (index, name) => {
     setDiners(prev => prev.map((diner, i) => 
@@ -293,7 +316,7 @@ const SplitBill = () => {
         <div className="w-20 h-20 bg-gradient-to-br from-restaurant-gold to-restaurant-bronze rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-3xl">🍽️</span>
         </div>
-        <h1 className="section-title">Dividir la Cuenta</h1>
+        <h1 className="section-title">Dividir la cuenta</h1>
         <p className="text-restaurant-text-light text-lg">
           Nuevo sistema inteligente para dividir gastos
         </p>
@@ -325,7 +348,7 @@ const SplitBill = () => {
 
         <div className="flex justify-center space-x-4">
           <button
-            onClick={resetAll}
+            onClick={() => navigate('/')}
             className="btn-secondary"
           >
             Cancelar
@@ -368,7 +391,7 @@ const SplitBill = () => {
   const renderNames = () => (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="section-title">Nombres de los Comensales</h1>
+        <h1 className="section-title">Nombres de los comensales</h1>
         <p className="text-restaurant-text-light">
           Asigna un nombre a cada persona para organizar mejor los pedidos
         </p>
@@ -394,10 +417,10 @@ const SplitBill = () => {
 
         <div className="flex justify-between mt-6">
           <button
-            onClick={() => setStep('setup')}
+            onClick={() => navigate('/')}
             className="btn-secondary"
           >
-            Atrás
+            Cancelar
           </button>
           <button
             onClick={() => setStep('shared-question')}
@@ -455,10 +478,10 @@ const SplitBill = () => {
 
         <div className="flex justify-center mt-6">
           <button
-            onClick={() => setStep('names')}
+            onClick={() => navigate('/')}
             className="btn-secondary"
           >
-            Atrás
+            Cancelar
           </button>
         </div>
       </div>
@@ -482,7 +505,7 @@ const SplitBill = () => {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="section-title">Seleccionar Elementos Compartidos</h1>
+          <h1 className="section-title">Seleccionar elementos compartidos</h1>
           <p className="text-restaurant-text-light">
             Marca los elementos que van a compartir y selecciona quién participa en cada uno
           </p>
@@ -583,16 +606,16 @@ const SplitBill = () => {
         {/* Navegación */}
         <div className="flex justify-between mt-8">
           <button
-            onClick={() => setStep('shared-question')}
+            onClick={() => navigate('/')}
             className="btn-secondary"
           >
-            Atrás
+            Cancelar
           </button>
           <button
             onClick={() => setStep('individual-orders')}
             className="btn-primary"
           >
-            Continuar con Pedidos Individuales
+            Continuar con pedidos individuales
           </button>
         </div>
 
@@ -600,7 +623,7 @@ const SplitBill = () => {
         {selectedSharedItems.length > 0 && (
           <div className="mt-8 card p-6 bg-gradient-to-r from-restaurant-gold/10 to-restaurant-bronze/10">
             <h4 className="font-semibold text-restaurant-earth mb-3">
-              📋 Items Compartidos Seleccionados ({selectedSharedItems.length})
+              📋 Items compartidos seleccionados ({selectedSharedItems.length})
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {selectedSharedItems.map(itemId => {
@@ -734,7 +757,7 @@ const SplitBill = () => {
           <div className="flex items-start space-x-3">
             <span className="text-2xl">💡</span>
             <div>
-              <h4 className="font-semibold text-restaurant-text">Pedidos Individuales</h4>
+              <h4 className="font-semibold text-restaurant-text">Pedidos individuales</h4>
               <p className="text-sm text-restaurant-text-light">
                 Selecciona lo que consumió {currentDiner.name} individualmente. 
                 Los elementos compartidos ya se calcularon automáticamente.
@@ -755,7 +778,7 @@ const SplitBill = () => {
                 <div className="flex items-start space-x-3">
                   <span className="text-2xl">🍽️</span>
                   <div>
-                    <h4 className="font-semibold text-restaurant-text">Cálculo de Tapas</h4>
+                    <h4 className="font-semibold text-restaurant-text">Cálculo de tapas</h4>
                     <div className="text-sm text-restaurant-text-light space-y-1">
                       <p>• Bebidas: {tapasInfo.bebidas}</p>
                       <p>• Tapas gratis incluidas: {tapasInfo.tapasGratis}</p>
@@ -840,16 +863,16 @@ const SplitBill = () => {
         {/* Navegación */}
         <div className="flex flex-col sm:flex-row justify-between gap-4 mt-8">
           <button
-            onClick={() => currentDinerIndex > 0 ? previousDiner() : setStep('shared-selection')}
+            onClick={() => navigate('/')}
             className="btn-secondary w-full sm:w-auto"
           >
-            Atrás
+            Cancelar
           </button>
           <button
             onClick={nextDiner}
             className="btn-primary w-full sm:w-auto"
           >
-            {currentDinerIndex < diners.length - 1 ? 'Siguiente Comensal' : 'Ver Resumen'}
+            {currentDinerIndex < diners.length - 1 ? 'Siguiente comensal' : 'Ver resumen'}
           </button>
         </div>
       </div>
@@ -866,7 +889,7 @@ const SplitBill = () => {
           <div className="w-20 h-20 bg-gradient-to-br from-restaurant-gold to-restaurant-bronze rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">📊</span>
           </div>
-          <h1 className="section-title">Resumen de la Cuenta</h1>
+          <h1 className="section-title">Resumen de la cuenta</h1>
           <p className="text-restaurant-text-light">
             Revisa los totales y edita cualquier pedido si es necesario
           </p>
@@ -876,7 +899,7 @@ const SplitBill = () => {
         <div className="card p-6 mb-8 bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white">
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-xl font-bold mb-2">Total General</h3>
+              <h3 className="text-xl font-bold mb-2">Total general</h3>
               <p className="text-restaurant-cream">
                 Suma de todos los pedidos individuales + compartidos
               </p>
@@ -986,16 +1009,16 @@ const SplitBill = () => {
         {/* Botones de acción */}
         <div className="flex justify-center space-x-4">
           <button
-            onClick={() => setStep('individual-orders')}
+            onClick={() => navigate('/')}
             className="btn-secondary"
           >
-            Editar Pedidos Individuales
+            Volver al inicio
           </button>
           <button
             onClick={resetAll}
             className="btn-primary"
           >
-            Nueva División
+            Nueva división
           </button>
         </div>
 
