@@ -113,6 +113,169 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Sección de precios */}
+      <div className="bg-gradient-to-b from-restaurant-cream to-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="section-title">Planes y precios</h2>
+            <p className="text-restaurant-text-light text-lg max-w-2xl mx-auto">
+              Elige el plan que mejor se adapte a las necesidades de tu restaurante
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Plan Básico */}
+            <div className="card p-8 text-center hover:scale-105 transition-transform relative flex flex-col h-full">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-restaurant-text mb-2">Plan Básico</h3>
+                <div className="text-4xl font-bold text-restaurant-gold mb-2">45€</div>
+                <p className="text-restaurant-text-light">/mes</p>
+              </div>
+              
+              <ul className="text-left space-y-3 mb-8 flex-grow">
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Carta digital con QR</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">División básica de cuentas</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Códigos QR personalizados</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Soporte por email</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Actualizaciones menores</span>
+                </li>
+              </ul>
+              
+              <a 
+                href="https://wa.me/34695547905?text=Hola,%20me%20interesa%20el%20Plan%20Básico%20de%2045€/mes%20para%20mi%20restaurante"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary w-full mt-auto"
+              >
+                Solicitar Plan Básico
+              </a>
+            </div>
+
+            {/* Plan Estándar - Destacado */}
+            <div className="card p-8 text-center hover:scale-105 transition-transform relative border-2 border-restaurant-gold flex flex-col h-full">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-restaurant-gold text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  ⭐ MÁS POPULAR
+                </span>
+              </div>
+              
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-restaurant-text mb-2">Plan Estándar</h3>
+                <div className="text-4xl font-bold text-restaurant-gold mb-2">75€</div>
+                <p className="text-restaurant-text-light">/mes</p>
+              </div>
+              
+              <ul className="text-left space-y-3 mb-8 flex-grow">
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Todo del Plan Básico</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">División avanzada de cuentas</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Estadísticas básicas</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Soporte telefónico</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Personalización mensual</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Descuento anual 10%</span>
+                </li>
+              </ul>
+              
+              <a 
+                href="https://wa.me/34695547905?text=Hola,%20me%20interesa%20el%20Plan%20Estándar%20de%2075€/mes%20para%20mi%20restaurante"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary w-full mt-auto"
+              >
+                Solicitar Plan Estándar
+              </a>
+            </div>
+
+            {/* Plan Premium */}
+            <div className="card p-8 text-center hover:scale-105 transition-transform relative flex flex-col h-full">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-restaurant-text mb-2">Plan Premium</h3>
+                <div className="text-4xl font-bold text-restaurant-gold mb-2">120€</div>
+                <p className="text-restaurant-text-light">/mes</p>
+              </div>
+              
+              <ul className="text-left space-y-3 mb-8 flex-grow">
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Todo del Plan Estándar</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Integración con TPV</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Reportes avanzados</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Gestión de inventario</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Soporte prioritario 24/7</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <span className="text-green-500 text-xl">✓</span>
+                  <span className="text-restaurant-text">Descuento anual 15%</span>
+                </li>
+              </ul>
+              
+              <a 
+                href="https://wa.me/34695547905?text=Hola,%20me%20interesa%20el%20Plan%20Premium%20de%20120€/mes%20para%20mi%20restaurante"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary w-full mt-auto"
+              >
+                Solicitar Plan Premium
+              </a>
+            </div>
+          </div>
+          
+          {/* Nota sobre setup */}
+          <div className="text-center mt-12">
+            <div className="bg-gradient-to-r from-restaurant-gold/10 to-restaurant-bronze/10 rounded-2xl p-6 max-w-3xl mx-auto">
+              <h4 className="text-xl font-semibold text-restaurant-text mb-3">🚀 Sin costos de instalación</h4>
+              <p className="text-restaurant-text-light">
+                <strong>¡Cero setup!</strong> Solo necesitas los códigos QR que te proporcionamos. 
+                No requiere instalación, configuración compleja ni hardware adicional. 
+                Tu carta digital estará funcionando en menos de 24 horas.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Sección de beneficios para restaurantes */}
       <div className="bg-gradient-to-r from-restaurant-earth to-restaurant-wood py-20 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
