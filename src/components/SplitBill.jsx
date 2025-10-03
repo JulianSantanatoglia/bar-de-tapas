@@ -75,12 +75,21 @@ const SplitBill = () => {
   // Manejar pedidos individuales
   const handleIndividualOrder = (dinerId, itemId, quantity) => {
     const key = `${dinerId}-${itemId}`;
-    const numQuantity = Math.max(1, parseInt(quantity) || 1);
+    const numQuantity = Math.max(0, parseInt(quantity) || 0);
     
-    setIndividualOrders(prev => ({
-      ...prev,
-      [key]: numQuantity
-    }));
+    setIndividualOrders(prev => {
+      const newOrders = { ...prev };
+      
+      if (numQuantity === 0) {
+        // Si la cantidad es 0, eliminar el item del pedido
+        delete newOrders[key];
+      } else {
+        // Si la cantidad es mayor a 0, actualizar el pedido
+        newOrders[key] = numQuantity;
+      }
+      
+      return newOrders;
+    });
   };
 
   // Calcular tapas extras para un comensal
@@ -589,7 +598,7 @@ const SplitBill = () => {
                           </div>
                           {participants.length > 0 && (
                             <div className="mt-3 p-2 bg-restaurant-gold/10 rounded-lg">
-                              <p className="text-sm font-medium text-restaurant-gold text-center">
+                              <p className="text-sm font-medium text-black text-center">
                                 {participants.length} persona{participants.length !== 1 ? 's' : ''} participando
                               </p>
                             </div>
