@@ -1,7 +1,7 @@
 // Datos del restaurante - fácilmente editables
 export const restaurantData = {
   name: "Smart Cart",
-  description: "Siempre hay uno del grupo que lleva la logística y las cuentas",
+  description: "Siempre hay uno del grupo que lleva la logística... y las cuentas",
   headerImage: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1200&h=400&fit=crop",
   
   // Información de contacto (para futuras funcionalidades)

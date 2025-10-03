@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { menuCategories } from '../data';
 
 /**
@@ -8,6 +8,7 @@ import { menuCategories } from '../data';
  */
 const SplitBill = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Estados principales
   const [step, setStep] = useState('setup'); // 'setup', 'names', 'shared-question', 'shared-selection', 'individual-orders', 'summary'
@@ -191,19 +192,19 @@ const SplitBill = () => {
       resetAll();
     };
 
-    // Escuchar cambios en la URL
-    const handlePopState = () => {
-      resetAll();
-    };
-
     window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('popstate', handlePopState);
 
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
     };
   }, []);
+
+  // Resetear cuando se navega fuera de la página de dividir cuenta
+  useEffect(() => {
+    if (location.pathname !== '/dividir-cuenta') {
+      resetAll();
+    }
+  }, [location.pathname]);
 
   // Actualizar nombre del comensal
   const updateDinerName = (index, name) => {
@@ -417,7 +418,7 @@ const SplitBill = () => {
 
         <div className="flex justify-between mt-6">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => setStep('setup')}
             className="btn-secondary"
           >
             Cancelar
@@ -478,7 +479,7 @@ const SplitBill = () => {
 
         <div className="flex justify-center mt-6">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => setStep('names')}
             className="btn-secondary"
           >
             Cancelar
@@ -606,7 +607,7 @@ const SplitBill = () => {
         {/* Navegación */}
         <div className="flex justify-between mt-8">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => setStep('shared-question')}
             className="btn-secondary"
           >
             Cancelar
@@ -863,7 +864,13 @@ const SplitBill = () => {
         {/* Navegación */}
         <div className="flex flex-col sm:flex-row justify-between gap-4 mt-8">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => {
+              if (hasSharedItems === true) {
+                setStep('shared-selection');
+              } else {
+                setStep('shared-question');
+              }
+            }}
             className="btn-secondary w-full sm:w-auto"
           >
             Cancelar
