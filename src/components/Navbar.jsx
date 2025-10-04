@@ -25,36 +25,36 @@ const Navbar = () => {
           <div className="flex space-x-1 sm:space-x-3">
             <Link
               to="/"
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center space-x-2 ${
+              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center ${
                 location.pathname === '/'
                   ? 'bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white shadow-lg transform scale-105'
                   : 'text-restaurant-text-light hover:bg-restaurant-light-wood hover:text-restaurant-earth hover:shadow-md'
               }`}
             >
               <span>🏠</span>
-              <span>Inicio</span>
+              <span className="ml-2">Inicio</span>
             </Link>
             <Link
               to="/carta"
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center space-x-2 ${
+              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center ${
                 location.pathname === '/carta'
                   ? 'bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white shadow-lg transform scale-105'
                   : 'text-restaurant-text-light hover:bg-restaurant-light-wood hover:text-restaurant-earth hover:shadow-md'
               }`}
             >
               <span>📋</span>
-              <span className="hidden sm:inline">Carta</span>
+              <span className="hidden sm:inline ml-2">Carta</span>
             </Link>
             <Link
               to="/dividir-cuenta"
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center space-x-2 ${
+              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center ${
                 location.pathname === '/dividir-cuenta'
                   ? 'bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white shadow-lg transform scale-105'
                   : 'text-restaurant-text-light hover:bg-restaurant-light-wood hover:text-restaurant-earth hover:shadow-md'
               }`}
             >
               <span>💰</span>
-              <span className="hidden sm:inline">Dividir</span>
+              <span className="hidden sm:inline ml-2">Dividir</span>
             </Link>
           </div>
         </div>

@@ -217,8 +217,10 @@ const SplitBill = () => {
 
   // Actualizar nombre del comensal
   const updateDinerName = (index, name) => {
+    // Limitar a máximo 10 caracteres
+    const truncatedName = name.slice(0, 10);
     setDiners(prev => prev.map((diner, i) => 
-      i === index ? { ...diner, name } : diner
+      i === index ? { ...diner, name: truncatedName } : diner
     ));
   };
 
@@ -410,17 +412,31 @@ const SplitBill = () => {
       <div className="card p-6">
         <div className="space-y-4">
           {diners.map((diner, index) => (
-            <div key={index} className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-restaurant-earth to-restaurant-wood rounded-full flex items-center justify-center text-white font-bold text-sm">
-                {index + 1}
+            <div key={index} className="space-y-2">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-restaurant-earth to-restaurant-wood rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  {index + 1}
+                </div>
+                <input
+                  type="text"
+                  placeholder={`Comensal ${index + 1}`}
+                  value={diner.name}
+                  onChange={(e) => updateDinerName(index, e.target.value)}
+                  maxLength={10}
+                  className="flex-1 px-4 py-2 border border-restaurant-light-wood rounded-lg focus:ring-2 focus:ring-restaurant-earth focus:border-restaurant-earth"
+                />
               </div>
-              <input
-                type="text"
-                placeholder={`Nombre del comensal ${index + 1}`}
-                value={diner.name}
-                onChange={(e) => updateDinerName(index, e.target.value)}
-                className="flex-1 px-4 py-2 border border-restaurant-light-wood rounded-lg focus:ring-2 focus:ring-restaurant-earth focus:border-restaurant-earth"
-              />
+              <div className="flex justify-end">
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  diner.name.length >= 8 
+                    ? 'bg-red-100 text-red-600' 
+                    : diner.name.length >= 6 
+                    ? 'bg-yellow-100 text-yellow-600' 
+                    : 'bg-green-100 text-green-600'
+                }`}>
+                  {diner.name.length}/10 caracteres
+                </span>
+              </div>
             </div>
           ))}
         </div>
@@ -458,9 +474,7 @@ const SplitBill = () => {
       </div>
 
       <div className="card p-8">
-        <div className="text-center space-y-6">
-          <div className="text-6xl mb-4">🍽️</div>
-          
+        <div className="text-center space-y-6">         
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => {
