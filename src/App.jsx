@@ -37,7 +37,7 @@ function App() {
                 <span className="font-display text-xl font-bold text-white">Divly</span>
                 <span className="text-restaurant-cream/80">by</span>
                 <img 
-                  src="/images/logojsagency.png" 
+                  src="/images/logojsagency.png"
                   alt=".js agency" 
                   className="h-5 object-contain"
                 />

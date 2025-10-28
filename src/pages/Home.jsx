@@ -77,7 +77,7 @@ const Home = () => {
               <div className="mb-6 flex items-center justify-center gap-2">
                 <span className="text-sm md:text-base font-display text-restaurant-cream/80 tracking-wide">by</span>
                 <img 
-                  src="/images/logojsagency.png" 
+                  src="/images/logojsagency.png"
                   alt=".js agency" 
                   className="h-6 md:h-7 object-contain"
                 />
