@@ -33,19 +33,20 @@ function App() {
         <footer className="bg-gradient-to-r from-restaurant-earth to-restaurant-wood border-t border-restaurant-light-wood mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-restaurant-gold to-restaurant-bronze rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-sm">🍽️</span>
-                </div>
-                <span className="font-display text-xl font-bold text-white">
-                  Smart Cart
-                </span>
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <span className="font-display text-xl font-bold text-white">Divly</span>
+                <span className="text-restaurant-cream/80">by</span>
+                <img 
+                  src="/images/logojsagency.png" 
+                  alt=".js agency" 
+                  className="h-5 object-contain"
+                />
               </div>
               <p className="text-restaurant-cream text-sm mb-2">
-                © 2024 Smart Cart. Todos los derechos reservados.
+                © 2024 Divly. Todos los derechos reservados.
               </p>
               <p className="text-restaurant-light-wood text-xs">
-                💻 Carta digital inteligente con división de cuentas
+                Divide tu cuenta de forma inteligente
               </p>
             </div>
           </div>

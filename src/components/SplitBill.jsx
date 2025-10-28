@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { menuCategories } from '../data';
+import { Search, ChevronDown, ChevronUp, Users, Minus, Plus, CheckCircle2, XCircle, UtensilsCrossed } from 'lucide-react';
 
 /**
  * Componente avanzado para dividir la cuenta entre comensales
@@ -21,6 +22,10 @@ const SplitBill = () => {
   const [currentDinerIndex, setCurrentDinerIndex] = useState(0);
   const [totals, setTotals] = useState({});
   const [grandTotal, setGrandTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el buscador en pedidos individuales
+  const [isExpanded, setIsExpanded] = useState({}); // Estado para categorías expandidas en pedidos individuales
+  const [sharedSearchTerm, setSharedSearchTerm] = useState(''); // Estado para el buscador en elementos compartidos
+  const [sharedExpanded, setSharedExpanded] = useState({}); // Estado para categorías expandidas en elementos compartidos
 
   // Inicializar comensales
   const initializeDiners = () => {
@@ -65,10 +70,23 @@ const SplitBill = () => {
         newParticipants = currentParticipants.filter(id => id !== dinerId);
       }
       
-      return {
+      const newState = {
         ...prev,
         [itemId]: newParticipants
       };
+      
+      // Si no hay participantes, eliminar el item del estado compartido
+      if (newParticipants.length === 0) {
+        delete newState[itemId];
+        // También deseleccionar el item compartido si no tiene participantes
+        setSharedItems(prevItems => {
+          const newItems = { ...prevItems };
+          delete newItems[itemId];
+          return newItems;
+        });
+      }
+      
+      return newState;
     });
   };
 
@@ -102,10 +120,26 @@ const SplitBill = () => {
       if (key.startsWith(`${dinerId}-`)) {
         const itemId = key.split('-').slice(1).join('-');
         
-        const category = Object.values(menuCategories).find(cat => 
-          cat.items.some(item => item.id === itemId)
-        );
-        const item = category?.items.find(item => item.id === itemId);
+        // Buscar el item en todas las categorías y subcategorías
+        let item = null;
+        for (const category of Object.values(menuCategories)) {
+          if (category.subcategories) {
+            for (const subcategory of Object.values(category.subcategories)) {
+              const foundItem = subcategory.items?.find(i => i.id === itemId);
+              if (foundItem) {
+                item = foundItem;
+                break;
+              }
+            }
+          } else if (category.items) {
+            const foundItem = category.items.find(i => i.id === itemId);
+            if (foundItem) {
+              item = foundItem;
+              break;
+            }
+          }
+          if (item) break;
+        }
         
         if (item) {
           if (item.category === 'bebidas') {
@@ -137,10 +171,26 @@ const SplitBill = () => {
     // Items compartidos
     Object.entries(sharedParticipants).forEach(([itemId, participants]) => {
       if (participants.includes(dinerId)) {
-        const category = Object.values(menuCategories).find(cat => 
-          cat.items.some(item => item.id === itemId)
-        );
-        const item = category?.items.find(item => item.id === itemId);
+        // Buscar el item en todas las categorías y subcategorías
+        let item = null;
+        for (const category of Object.values(menuCategories)) {
+          if (category.subcategories) {
+            for (const subcategory of Object.values(category.subcategories)) {
+              const foundItem = subcategory.items?.find(i => i.id === itemId);
+              if (foundItem) {
+                item = foundItem;
+                break;
+              }
+            }
+          } else if (category.items) {
+            const foundItem = category.items.find(i => i.id === itemId);
+            if (foundItem) {
+              item = foundItem;
+              break;
+            }
+          }
+          if (item) break;
+        }
         
         if (item && participants.length > 0) {
           // Dividir el precio entre los participantes
@@ -154,10 +204,26 @@ const SplitBill = () => {
       if (key.startsWith(`${dinerId}-`)) {
         const itemId = key.split('-').slice(1).join('-');
         
-        const category = Object.values(menuCategories).find(cat => 
-          cat.items.some(item => item.id === itemId)
-        );
-        const item = category?.items.find(item => item.id === itemId);
+        // Buscar el item en todas las categorías y subcategorías
+        let item = null;
+        for (const category of Object.values(menuCategories)) {
+          if (category.subcategories) {
+            for (const subcategory of Object.values(category.subcategories)) {
+              const foundItem = subcategory.items?.find(i => i.id === itemId);
+              if (foundItem) {
+                item = foundItem;
+                break;
+              }
+            }
+          } else if (category.items) {
+            const foundItem = category.items.find(i => i.id === itemId);
+            if (foundItem) {
+              item = foundItem;
+              break;
+            }
+          }
+          if (item) break;
+        }
         
         if (item) {
           total += item.price * quantity;
@@ -174,7 +240,7 @@ const SplitBill = () => {
 
   // Actualizar totales cuando cambian los datos
   useEffect(() => {
-    if (diners.length === 0) return;
+    if (!diners || diners.length === 0) return;
     
     const newTotals = {};
     let grandTotalCalc = 0;
@@ -264,10 +330,26 @@ const SplitBill = () => {
     // Items compartidos
     Object.entries(sharedParticipants).forEach(([itemId, participants]) => {
       if (participants.includes(dinerId)) {
-        const category = Object.values(menuCategories).find(cat => 
-          cat.items.some(item => item.id === itemId)
-        );
-        const item = category?.items.find(item => item.id === itemId);
+        // Buscar el item en todas las categorías y subcategorías
+        let item = null;
+        for (const category of Object.values(menuCategories)) {
+          if (category.subcategories) {
+            for (const subcategory of Object.values(category.subcategories)) {
+              const foundItem = subcategory.items?.find(i => i.id === itemId);
+              if (foundItem) {
+                item = foundItem;
+                break;
+              }
+            }
+          } else if (category.items) {
+            const foundItem = category.items.find(i => i.id === itemId);
+            if (foundItem) {
+              item = foundItem;
+              break;
+            }
+          }
+          if (item) break;
+        }
         
         if (item) {
           const pricePerPerson = item.price / participants.length;
@@ -288,10 +370,26 @@ const SplitBill = () => {
       if (key.startsWith(`${dinerId}-`)) {
         const itemId = key.split('-').slice(1).join('-');
         
-        const category = Object.values(menuCategories).find(cat => 
-          cat.items.some(item => item.id === itemId)
-        );
-        const item = category?.items.find(item => item.id === itemId);
+        // Buscar el item en todas las categorías y subcategorías
+        let item = null;
+        for (const category of Object.values(menuCategories)) {
+          if (category.subcategories) {
+            for (const subcategory of Object.values(category.subcategories)) {
+              const foundItem = subcategory.items?.find(i => i.id === itemId);
+              if (foundItem) {
+                item = foundItem;
+                break;
+              }
+            }
+          } else if (category.items) {
+            const foundItem = category.items.find(i => i.id === itemId);
+            if (foundItem) {
+              item = foundItem;
+              break;
+            }
+          }
+          if (item) break;
+        }
         
         if (item) {
           const totalPrice = item.price * quantity;
@@ -323,76 +421,119 @@ const SplitBill = () => {
 
   // Renderizar setup inicial - número de comensales
   const renderSetup = () => (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-gradient-to-br from-restaurant-gold to-restaurant-bronze rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl">🍽️</span>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="text-center mb-12">
+        <div className="w-24 h-24 bg-restaurant-earth rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-restaurant-light-wood">
+          <Users className="w-12 h-12 text-white" strokeWidth={2} />
         </div>
         <h1 className="section-title">Dividir la cuenta</h1>
-        <p className="text-restaurant-text-light text-lg">
-          Nuevo sistema inteligente para dividir gastos
+        <p className="text-restaurant-text-light text-lg max-w-2xl mx-auto">
+          Sistema inteligente para dividir gastos de forma justa y sencilla
         </p>
       </div>
 
-      <div className="card p-8">
-        <div className="text-center mb-6">
-          <h3 className="text-xl font-semibold text-restaurant-earth mb-4">
+      <div className="card p-8 md:p-12">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-bold text-restaurant-earth mb-2">
             ¿Cuántos comensales son?
           </h3>
-          <div className="flex items-center justify-center space-x-4 mb-6">
-            <button
-              onClick={() => setNumberOfDiners(Math.max(1, numberOfDiners - 1))}
-              className="w-12 h-12 bg-restaurant-light-wood text-restaurant-earth rounded-full hover:bg-restaurant-wood hover:text-white transition-colors"
-            >
-              -
-            </button>
-            <span className="text-3xl font-bold text-restaurant-earth w-16">
-              {numberOfDiners}
-            </span>
-            <button
-              onClick={() => setNumberOfDiners(Math.min(10, numberOfDiners + 1))}
-              className="w-12 h-12 bg-restaurant-light-wood text-restaurant-earth rounded-full hover:bg-restaurant-wood hover:text-white transition-colors"
-            >
-              +
-            </button>
+          <p className="text-restaurant-text-light mb-8">
+            Selecciona el número de personas en la mesa
+          </p>
+          
+          {/* Selector moderno con grid de números */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center space-x-6 mb-6">
+              <button
+                onClick={() => setNumberOfDiners(Math.max(1, numberOfDiners - 1))}
+                className="w-14 h-14 bg-restaurant-light-wood text-restaurant-earth rounded-xl hover:bg-restaurant-wood hover:text-white transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={numberOfDiners <= 1}
+              >
+                <Minus className="w-6 h-6" strokeWidth={3} />
+              </button>
+              
+              <div className="relative">
+                <div className="w-32 h-32 bg-gradient-to-br from-restaurant-earth via-restaurant-wood to-restaurant-earth rounded-2xl flex items-center justify-center shadow-2xl border-4 border-restaurant-light-wood">
+                  <span className="text-6xl font-bold text-white">{numberOfDiners}</span>
+                </div>
+                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-restaurant-cream px-4 py-1 rounded-full border-2 border-restaurant-wood shadow-md">
+                  <span className="text-sm font-semibold text-restaurant-earth">
+                    {numberOfDiners === 1 ? 'persona' : 'personas'}
+                  </span>
+                </div>
+              </div>
+              
+              <button
+                onClick={() => setNumberOfDiners(Math.min(10, numberOfDiners + 1))}
+                className="w-14 h-14 bg-restaurant-light-wood text-restaurant-earth rounded-xl hover:bg-restaurant-wood hover:text-white transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={numberOfDiners >= 10}
+              >
+                <Plus className="w-6 h-6" strokeWidth={3} />
+              </button>
+            </div>
+            
+            {/* Indicador visual adicional con puntos */}
+            <div className="flex items-center justify-center gap-2 mt-4">
+              {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                <button
+                  key={num}
+                  onClick={() => setNumberOfDiners(num)}
+                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    numberOfDiners === num
+                      ? 'bg-restaurant-earth w-8 h-3'
+                      : 'bg-restaurant-light-wood hover:bg-restaurant-wood'
+                  }`}
+                  aria-label={`Seleccionar ${num} comensales`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="flex justify-center space-x-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button
             onClick={() => navigate('/')}
-            className="btn-secondary"
+            className="btn-secondary order-2 sm:order-1"
           >
             Cancelar
           </button>
           <button
             onClick={initializeDiners}
-            className="btn-primary"
+            className="btn-primary order-1 sm:order-2"
           >
             Continuar
           </button>
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card p-4 text-center">
-          <div className="text-2xl mb-2">👥</div>
-          <h4 className="font-semibold text-restaurant-earth">1. Comensales</h4>
+      {/* Pasos del proceso */}
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="card p-6 text-center hover:scale-105 transition-transform">
+          <div className="w-14 h-14 bg-restaurant-earth text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-lg">
+            1
+          </div>
+          <h4 className="font-semibold text-restaurant-earth mb-1">Comensales</h4>
           <p className="text-sm text-restaurant-text-light">Define cuántos son</p>
         </div>
-        <div className="card p-4 text-center">
-          <div className="text-2xl mb-2">✏️</div>
-          <h4 className="font-semibold text-restaurant-earth">2. Nombres</h4>
+        <div className="card p-6 text-center hover:scale-105 transition-transform">
+          <div className="w-14 h-14 bg-restaurant-light-wood text-restaurant-earth rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-lg">
+            2
+          </div>
+          <h4 className="font-semibold text-restaurant-earth mb-1">Nombres</h4>
           <p className="text-sm text-restaurant-text-light">Asigna nombres</p>
         </div>
-        <div className="card p-4 text-center">
-          <div className="text-2xl mb-2">🤝</div>
-          <h4 className="font-semibold text-restaurant-earth">3. Compartir</h4>
+        <div className="card p-6 text-center hover:scale-105 transition-transform">
+          <div className="w-14 h-14 bg-restaurant-light-wood text-restaurant-earth rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-lg">
+            3
+          </div>
+          <h4 className="font-semibold text-restaurant-earth mb-1">Compartir</h4>
           <p className="text-sm text-restaurant-text-light">¿Algo compartido?</p>
         </div>
-        <div className="card p-4 text-center">
-          <div className="text-2xl mb-2">📝</div>
-          <h4 className="font-semibold text-restaurant-earth">4. Individual</h4>
+        <div className="card p-6 text-center hover:scale-105 transition-transform">
+          <div className="w-14 h-14 bg-restaurant-light-wood text-restaurant-earth rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-lg">
+            4
+          </div>
+          <h4 className="font-semibold text-restaurant-earth mb-1">Individual</h4>
           <p className="text-sm text-restaurant-text-light">Consumo personal</p>
         </div>
       </div>
@@ -462,62 +603,103 @@ const SplitBill = () => {
 
   // Renderizar pregunta sobre items compartidos
   const renderSharedQuestion = () => (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-gradient-to-br from-restaurant-gold to-restaurant-bronze rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl">🤝</span>
+    <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="text-center mb-12">
+        <div className="w-24 h-24 bg-restaurant-earth rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-restaurant-light-wood">
+          <UtensilsCrossed className="w-12 h-12 text-white" strokeWidth={2} />
         </div>
         <h1 className="section-title">¿Han consumido algo a compartir?</h1>
-        <p className="text-restaurant-text-light text-lg">
-          Antes de registrar el consumo individual, necesitamos saber si hay elementos compartidos
+        <p className="text-restaurant-text-light text-lg max-w-2xl mx-auto">
+          Antes de registrar el consumo individual, necesitamos saber si hay elementos que se compartieron entre varias personas
         </p>
       </div>
 
-      <div className="card p-8">
-        <div className="text-center space-y-6">         
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => {
-                setHasSharedItems(true);
-                setStep('shared-selection');
-              }}
-              className="btn-primary text-lg px-8 py-4"
-            >
-              <span className="text-2xl mr-2">✅</span>
-              Sí, hay algo compartido
-            </button>
-            
-            <button
-              onClick={() => {
-                setHasSharedItems(false);
-                setStep('individual-orders');
-              }}
-              className="btn-secondary text-lg px-8 py-4"
-            >
-              <span className="text-2xl mr-2">❌</span>
-              No, todo individual
-            </button>
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
+        {/* Botón Sí */}
+        <button
+          onClick={() => {
+            setHasSharedItems(true);
+            setStep('shared-selection');
+          }}
+          className="card p-8 hover:scale-105 transition-all duration-300 border-2 border-transparent hover:border-restaurant-earth group text-left"
+        >
+          <div className="flex flex-col items-center text-center">
+            <div className="w-20 h-20 bg-restaurant-earth rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <CheckCircle2 className="w-10 h-10 text-white" strokeWidth={2.5} />
+            </div>
+            <h3 className="text-xl font-bold text-restaurant-earth mb-2">Sí, hay algo compartido</h3>
+            <p className="text-restaurant-text-light text-sm">
+              Raciones, jarras, botellas u otros platos que se dividieron entre comensales
+            </p>
           </div>
-        </div>
-
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={() => setStep('names')}
-            className="btn-secondary"
-          >
-            Cancelar
-          </button>
-        </div>
+        </button>
+        
+        {/* Botón No */}
+        <button
+          onClick={() => {
+            setHasSharedItems(false);
+            setCurrentDinerIndex(0);
+            setStep('individual-orders');
+          }}
+          className="card p-8 hover:scale-105 transition-all duration-300 border-2 border-transparent hover:border-restaurant-wood group text-left"
+        >
+          <div className="flex flex-col items-center text-center">
+            <div className="w-20 h-20 bg-restaurant-light-wood rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <XCircle className="w-10 h-10 text-restaurant-earth" strokeWidth={2.5} />
+            </div>
+            <h3 className="text-xl font-bold text-restaurant-earth mb-2">No, todo individual</h3>
+            <p className="text-restaurant-text-light text-sm">
+              Cada comensal consumió únicamente productos para sí mismo
+            </p>
+          </div>
+        </button>
       </div>
 
-      <div className="mt-8 card p-6 bg-gradient-to-r from-restaurant-cream to-restaurant-light-wood">
-        <h4 className="font-semibold text-restaurant-earth mb-3">💡 ¿Qué se considera compartido?</h4>
-        <ul className="text-sm text-restaurant-text space-y-1">
-          <li>• <strong>Raciones:</strong> Paellas, pulpo, carrillada, ensaladas grandes</li>
-          <li>• <strong>Bebidas:</strong> Jarras de sangría, botellas de vino</li>
-          <li>• <strong>Postres:</strong> Tarta para compartir</li>
-          <li>• <strong>Otros:</strong> Cualquier plato que se divida entre varias personas</li>
-        </ul>
+      <div className="flex justify-center mb-8">
+        <button
+          onClick={() => setStep('names')}
+          className="btn-secondary"
+        >
+          Volver atrás
+        </button>
+      </div>
+
+      {/* Info sobre compartido */}
+      <div className="card p-6 bg-restaurant-cream border-2 border-restaurant-light-wood">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-restaurant-earth rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-2xl">💡</span>
+          </div>
+          <div>
+            <h4 className="font-bold text-restaurant-earth mb-3 text-lg">¿Qué se considera compartido?</h4>
+            <ul className="text-sm text-restaurant-text space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="font-bold text-restaurant-wood">•</span>
+                <div>
+                  <strong>Raciones:</strong> Paellas, pulpo, carrillada, ensaladas grandes
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="font-bold text-restaurant-wood">•</span>
+                <div>
+                  <strong>Bebidas:</strong> Jarras de sangría, botellas de vino, jarras de cerveza
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="font-bold text-restaurant-wood">•</span>
+                <div>
+                  <strong>Postres:</strong> Tartas para compartir, helados familiares
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="font-bold text-restaurant-wood">•</span>
+                <div>
+                  <strong>Otros:</strong> Cualquier plato que se divida entre varias personas
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -535,24 +717,88 @@ const SplitBill = () => {
           </p>
         </div>
 
-        {/* Productos por categorías */}
-        <div className="space-y-6">
-          {Object.entries(menuCategories).map(([categoryKey, category]) => (
-            <div key={categoryKey} className="card overflow-hidden">
-              <div className="bg-gradient-to-r from-restaurant-light-wood to-restaurant-cream p-4 border-b">
-                <h3 className="font-display text-xl font-semibold text-restaurant-earth">
-                  {category.name}
-                </h3>
-                <p className="text-restaurant-text-light text-sm">{category.description}</p>
-              </div>
-              
-              <div className="divide-y divide-gray-100">
-                {category.items.map((item) => {
-                  const isSelected = sharedItems[item.id] || false;
-                  const participants = sharedParticipants[item.id] || [];
-                  
-                  return (
-                    <div key={item.id} className="p-4">
+        {/* Buscador */}
+        <div className="relative mb-6">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-restaurant-text-light" />
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            value={sharedSearchTerm}
+            onChange={(e) => setSharedSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 border border-restaurant-light-wood rounded-xl focus:ring-2 focus:ring-restaurant-earth focus:border-restaurant-earth outline-none"
+          />
+        </div>
+
+        {/* Productos por categorías con subcategorías */}
+        <div className="space-y-4">
+          {Object.entries(menuCategories).map(([categoryKey, category]) => {
+            // Obtener todos los items de la categoría (incluyendo subcategorías)
+            let allCategoryItems = [];
+            
+            if (category.subcategories) {
+              // Si tiene subcategorías, obtener items de todas
+              Object.values(category.subcategories).forEach(subcategory => {
+                if (subcategory.items) {
+                  allCategoryItems.push(...subcategory.items);
+                }
+              });
+            } else if (category.items) {
+              // Si no tiene subcategorías, usar items directamente
+              allCategoryItems = category.items;
+            }
+            
+            // Filtrar items según búsqueda
+            const filteredItems = allCategoryItems.filter(item => 
+              sharedSearchTerm === '' ||
+              item.name.toLowerCase().includes(sharedSearchTerm.toLowerCase()) ||
+              item.description.toLowerCase().includes(sharedSearchTerm.toLowerCase())
+            );
+
+            if (filteredItems.length === 0) return null;
+
+            // Si hay búsqueda activa, expandir automáticamente las categorías con resultados
+            const isCategoryExpanded = sharedSearchTerm.trim() ? true : (sharedExpanded[categoryKey] ?? false);
+            
+            return (
+              <div key={categoryKey} className="mb-4">
+                {/* Header colapsible */}
+                <div 
+                  className="card cursor-pointer hover:shadow-lg transition-all duration-300"
+                  onClick={() => setSharedExpanded({...sharedExpanded, [categoryKey]: !isCategoryExpanded})}
+                >
+                  <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center space-x-4">
+                      <h3 className="font-display text-xl font-semibold text-restaurant-earth">
+                        {category.name}
+                      </h3>
+                      {!isCategoryExpanded && (
+                        <span className="text-sm text-restaurant-text-light bg-restaurant-light-wood px-3 py-1 rounded-full">
+                          {filteredItems.length} productos
+                        </span>
+                      )}
+                    </div>
+                    {isCategoryExpanded ? (
+                      <ChevronUp className="w-6 h-6 text-restaurant-earth" />
+                    ) : (
+                      <ChevronDown className="w-6 h-6 text-restaurant-earth" />
+                    )}
+                  </div>
+                </div>
+
+                {/* Contenido expandible */}
+                {isCategoryExpanded && (
+                  <div className="mt-2 card overflow-hidden">
+                    <div className="bg-gradient-to-r from-restaurant-light-wood to-restaurant-cream p-4 border-b">
+                      <p className="text-restaurant-text-light text-sm">{category.description}</p>
+                    </div>
+                
+                    <div className="divide-y divide-gray-100">
+                      {filteredItems.map((item) => {
+                    const isSelected = sharedItems[item.id] || false;
+                    const participants = sharedParticipants[item.id] || [];
+                    
+                    return (
+                      <div key={item.id} className="p-4">
                       {/* Layout responsive mejorado */}
                       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
                         <div className="flex items-start space-x-4 flex-1">
@@ -562,7 +808,7 @@ const SplitBill = () => {
                             id={`shared-${item.id}`}
                             checked={isSelected}
                             onChange={(e) => handleSharedItemSelection(item.id, e.target.checked)}
-                            className="w-5 h-5 text-restaurant-gold bg-gray-100 border-gray-300 rounded focus:ring-restaurant-gold focus:ring-2 mt-1"
+                            className="w-5 h-5 text-restaurant-earth bg-gray-100 border-gray-300 rounded focus:ring-restaurant-earth focus:ring-2 mt-1"
                           />
                           
                           <div className="flex-1 min-w-0">
@@ -570,7 +816,7 @@ const SplitBill = () => {
                             <p className="text-sm text-restaurant-text-light mt-1 leading-relaxed">{item.description}</p>
                             
                             {isSelected && (
-                              <span className="text-xs bg-restaurant-gold text-white px-2 py-1 rounded-full mt-2 inline-block">
+                              <span className="text-xs bg-restaurant-earth text-white px-2 py-1 rounded-full mt-2 inline-block">
                                 Compartir
                               </span>
                             )}
@@ -578,7 +824,7 @@ const SplitBill = () => {
                         </div>
                         
                         <div className="text-center lg:text-right min-w-[100px]">
-                          <div className="text-lg font-bold text-restaurant-gold">
+                          <div className="text-lg font-bold text-restaurant-earth">
                             {item.price === 0 ? 'Incluida' : `€${item.price.toFixed(2)}`}
                           </div>
                           {isSelected && item.price > 0 && participants.length > 0 && (
@@ -602,7 +848,7 @@ const SplitBill = () => {
                                   type="checkbox"
                                   checked={participants.includes(diner.id)}
                                   onChange={(e) => handleSharedParticipantSelection(item.id, diner.id, e.target.checked)}
-                                  className="w-5 h-5 text-restaurant-gold bg-white border-restaurant-light-wood rounded focus:ring-restaurant-gold focus:ring-2"
+                                  className="w-5 h-5 text-restaurant-earth bg-white border-restaurant-light-wood rounded focus:ring-restaurant-earth focus:ring-2"
                                 />
                                 <span className="text-sm font-medium text-restaurant-text">
                                   {diner.name}
@@ -611,7 +857,7 @@ const SplitBill = () => {
                             ))}
                           </div>
                           {participants.length > 0 && (
-                            <div className="mt-3 p-2 bg-restaurant-gold/10 rounded-lg">
+                            <div className="mt-3 p-2 bg-restaurant-light-wood/50 rounded-lg border border-restaurant-wood">
                               <p className="text-sm font-medium text-black text-center">
                                 {participants.length} persona{participants.length !== 1 ? 's' : ''} participando
                               </p>
@@ -619,12 +865,15 @@ const SplitBill = () => {
                           )}
                         </div>
                       )}
+                      </div>
+                    );
+                  })}
                     </div>
-                  );
-                })}
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Navegación */}
@@ -636,7 +885,10 @@ const SplitBill = () => {
             Cancelar
           </button>
           <button
-            onClick={() => setStep('individual-orders')}
+            onClick={() => {
+              setCurrentDinerIndex(0);
+              setStep('individual-orders');
+            }}
             className="btn-primary"
           >
             Continuar con pedidos individuales
@@ -645,16 +897,32 @@ const SplitBill = () => {
 
         {/* Resumen de items compartidos seleccionados */}
         {selectedSharedItems.length > 0 && (
-          <div className="mt-8 card p-6 bg-gradient-to-r from-restaurant-gold/10 to-restaurant-bronze/10">
+          <div className="mt-8 card p-6 bg-restaurant-cream border-2 border-restaurant-light-wood">
             <h4 className="font-semibold text-restaurant-earth mb-3">
               📋 Items compartidos seleccionados ({selectedSharedItems.length})
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {selectedSharedItems.map(itemId => {
-                const category = Object.values(menuCategories).find(cat => 
-                  cat.items.some(item => item.id === itemId)
-                );
-                const item = category?.items.find(item => item.id === itemId);
+                // Buscar el item en todas las categorías y subcategorías
+                let item = null;
+                for (const category of Object.values(menuCategories)) {
+                  if (category.subcategories) {
+                    for (const subcategory of Object.values(category.subcategories)) {
+                      const foundItem = subcategory.items?.find(i => i.id === itemId);
+                      if (foundItem) {
+                        item = foundItem;
+                        break;
+                      }
+                    }
+                  } else if (category.items) {
+                    const foundItem = category.items.find(i => i.id === itemId);
+                    if (foundItem) {
+                      item = foundItem;
+                      break;
+                    }
+                  }
+                  if (item) break;
+                }
                 const participants = sharedParticipants[itemId] || [];
                 
                 return (
@@ -695,7 +963,7 @@ const SplitBill = () => {
           type="button"
           onClick={handleDecrement}
           onMouseDown={handleDecrement}
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold select-none cursor-pointer touch-manipulation bg-restaurant-light-wood text-restaurant-earth hover:bg-restaurant-wood hover:text-white focus:bg-restaurant-wood focus:text-white focus:outline-none focus:ring-2 focus:ring-restaurant-gold`}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold select-none cursor-pointer touch-manipulation bg-restaurant-light-wood text-restaurant-earth hover:bg-restaurant-wood hover:text-white focus:bg-restaurant-wood focus:text-white focus:outline-none focus:ring-2 focus:ring-restaurant-earth`}
           aria-label="Disminuir cantidad"
           style={{ 
             WebkitTapHighlightColor: 'transparent',
@@ -739,7 +1007,37 @@ const SplitBill = () => {
 
   // Renderizar pedidos individuales del comensal actual
   const renderIndividualOrders = () => {
+    // Validar que hay comensales
+    if (!diners || diners.length === 0) {
+      return (
+        <div className="max-w-2xl mx-auto px-4 py-8">
+          <div className="card p-8 text-center">
+            <p className="text-restaurant-text-light mb-4">Error: No hay comensales configurados</p>
+            <button onClick={resetAll} className="btn-primary">Volver al inicio</button>
+          </div>
+        </div>
+      );
+    }
+
+    // Validar que el índice del comensal es válido
+    if (currentDinerIndex < 0 || currentDinerIndex >= diners.length) {
+      setCurrentDinerIndex(0);
+      return null;
+    }
+
     const currentDiner = diners[currentDinerIndex];
+    
+    if (!currentDiner) {
+      return (
+        <div className="max-w-2xl mx-auto px-4 py-8">
+          <div className="card p-8 text-center">
+            <p className="text-restaurant-text-light mb-4">Error: Comensal no encontrado</p>
+            <button onClick={resetAll} className="btn-primary">Volver al inicio</button>
+          </div>
+        </div>
+      );
+    }
+
     const dinerTotal = totals[currentDiner.id] || 0;
 
     return (
@@ -769,7 +1067,7 @@ const SplitBill = () => {
             </div>
             <div className="w-full bg-restaurant-light-wood rounded-full h-2">
               <div 
-                className="bg-restaurant-gold h-2 rounded-full transition-all duration-300"
+                className="bg-restaurant-earth h-2 rounded-full transition-all duration-300"
                 style={{ width: `${((currentDinerIndex + 1) / diners.length) * 100}%` }}
               ></div>
             </div>
@@ -798,7 +1096,7 @@ const SplitBill = () => {
           const tapasInfo = calculateExtraTapas(currentDiner.id);
           if (tapasInfo.bebidas > 0 || tapasInfo.tapasGratis > 0) {
             return (
-              <div className="card p-4 mb-6 bg-gradient-to-r from-restaurant-gold/10 to-restaurant-bronze/10 border border-restaurant-gold/20">
+              <div className="card p-4 mb-6 bg-restaurant-cream border-2 border-restaurant-light-wood">
                 <div className="flex items-start space-x-3">
                   <span className="text-2xl">🍽️</span>
                   <div>
@@ -807,7 +1105,7 @@ const SplitBill = () => {
                       <p>• Bebidas: {tapasInfo.bebidas}</p>
                       <p>• Tapas gratis incluidas: {tapasInfo.tapasGratis}</p>
                       {tapasInfo.tapasExtras > 0 && (
-                        <p className="text-restaurant-gold font-medium">• Tapas extras a pagar: {tapasInfo.tapasExtras} (€{tapasInfo.precioTapasExtras.toFixed(2)})</p>
+                        <p className="text-restaurant-earth font-bold">• Tapas extras a pagar: {tapasInfo.tapasExtras} (€{tapasInfo.precioTapasExtras.toFixed(2)})</p>
                       )}
                     </div>
                   </div>
@@ -818,70 +1116,137 @@ const SplitBill = () => {
           return null;
         })()}
 
-        {/* Productos por categorías */}
-        <div className="space-y-6">
-          {Object.entries(menuCategories).map(([categoryKey, category]) => (
-            <div key={categoryKey} className="card overflow-hidden">
-              <div className="bg-gradient-to-r from-restaurant-light-wood to-restaurant-cream p-4 border-b">
-                <h3 className="font-display text-xl font-semibold text-restaurant-earth">
-                  {category.name}
-                </h3>
-                <p className="text-restaurant-text-light text-sm">{category.description}</p>
-              </div>
-              
-              <div className="divide-y divide-gray-100">
-                {category.items.map((item) => {
-                  const key = `${currentDiner.id}-${item.id}`;
-                  const quantity = individualOrders[key] || 0;
-                  
-                  return (
-                    <div key={item.id} className="p-4">
-                      {/* Layout responsive mejorado */}
-                      <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-                        {/* Información del producto */}
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-restaurant-text text-lg leading-tight">{item.name}</h4>
-                          <p className="text-sm text-restaurant-text-light mt-1 leading-relaxed">{item.description}</p>
-                        </div>
-                        
-                        {/* Selector de cantidad y precio */}
-                        <div className="flex flex-col items-center gap-6">
-                          {/* Selector de cantidad */}
-                          <div className="flex flex-col items-center">
-                            <label className="text-sm font-medium text-restaurant-text-light mb-3">
-                              Cantidad
-                            </label>
-                            <QuantitySelector
-                              itemId={item.id}
-                              quantity={quantity}
-                              onQuantityChange={(newQuantity) => handleIndividualOrder(currentDiner.id, item.id, newQuantity)}
-                            />
-                          </div>
-                          
-                          {/* Precio */}
-                          <div className="text-center">
-                            <div className="text-lg font-bold text-restaurant-gold">
-                              {item.price === 0 ? 'Incluida' : `€${item.price.toFixed(2)}`}
-                            </div>
-                            {quantity > 0 && item.price > 0 && (
-                              <div className="text-sm text-restaurant-text-light mt-1">
-                                Total: €{(item.price * quantity).toFixed(2)}
-                              </div>
-                            )}
-                            {quantity > 0 && item.price === 0 && (
-                              <div className="text-sm text-restaurant-text-light mt-1">
-                                Incluida
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
+        {/* Buscador */}
+        <div className="relative mb-6">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-restaurant-text-light" />
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 border border-restaurant-light-wood rounded-xl focus:ring-2 focus:ring-restaurant-earth focus:border-restaurant-earth outline-none"
+          />
+        </div>
+
+        {/* Productos por categorías con subcategorías */}
+        <div className="space-y-4">
+          {Object.entries(menuCategories).map(([categoryKey, category]) => {
+            // Obtener todos los items de la categoría (incluyendo subcategorías)
+            let allCategoryItems = [];
+            
+            if (category.subcategories) {
+              // Si tiene subcategorías, obtener items de todas
+              Object.values(category.subcategories).forEach(subcategory => {
+                if (subcategory.items) {
+                  allCategoryItems.push(...subcategory.items);
+                }
+              });
+            } else if (category.items) {
+              // Si no tiene subcategorías, usar items directamente
+              allCategoryItems = category.items;
+            }
+            
+            // Filtrar items según búsqueda
+            const filteredItems = allCategoryItems.filter(item => 
+              searchTerm === '' ||
+              item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              item.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filteredItems.length === 0) return null;
+
+            // Si hay búsqueda activa, expandir automáticamente las categorías con resultados
+            const isCategoryExpanded = searchTerm.trim() ? true : (isExpanded[categoryKey] ?? false);
+
+            return (
+              <div key={categoryKey} className="mb-4">
+                {/* Header colapsible */}
+                <div 
+                  className="card cursor-pointer hover:shadow-lg transition-all duration-300"
+                  onClick={() => setIsExpanded({...isExpanded, [categoryKey]: !isCategoryExpanded})}
+                >
+                  <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center space-x-4">
+                      <h3 className="font-display text-xl font-semibold text-restaurant-earth">
+                        {category.name}
+                      </h3>
+                      {!isCategoryExpanded && (
+                        <span className="text-sm text-restaurant-text-light bg-restaurant-light-wood px-3 py-1 rounded-full">
+                          {filteredItems.length} productos
+                        </span>
+                      )}
                     </div>
-                  );
-                })}
+                    {isCategoryExpanded ? (
+                      <ChevronUp className="w-6 h-6 text-restaurant-earth" />
+                    ) : (
+                      <ChevronDown className="w-6 h-6 text-restaurant-earth" />
+                    )}
+                  </div>
+                </div>
+
+                {/* Contenido expandible */}
+                {isCategoryExpanded && (
+                  <div className="mt-2 card overflow-hidden">
+                    <div className="bg-gradient-to-r from-restaurant-light-wood to-restaurant-cream p-4 border-b">
+                      <p className="text-restaurant-text-light text-sm">{category.description}</p>
+                    </div>
+              
+                    <div className="divide-y divide-gray-100">
+                      {filteredItems.map((item) => {
+                        const key = `${currentDiner.id}-${item.id}`;
+                        const quantity = individualOrders[key] || 0;
+                        
+                        return (
+                          <div key={item.id} className="p-4">
+                            {/* Layout responsive mejorado */}
+                            <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+                              {/* Información del producto */}
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-semibold text-restaurant-text text-lg leading-tight">{item.name}</h4>
+                                <p className="text-sm text-restaurant-text-light mt-1 leading-relaxed">{item.description}</p>
+                              </div>
+                              
+                              {/* Selector de cantidad y precio */}
+                              <div className="flex flex-col items-center gap-6">
+                                {/* Selector de cantidad */}
+                                <div className="flex flex-col items-center">
+                                  <label className="text-sm font-medium text-restaurant-text-light mb-3">
+                                    Cantidad
+                                  </label>
+                                  <QuantitySelector
+                                    itemId={item.id}
+                                    quantity={quantity}
+                                    onQuantityChange={(newQuantity) => handleIndividualOrder(currentDiner.id, item.id, newQuantity)}
+                                  />
+                                </div>
+                                
+                                {/* Precio */}
+                                <div className="text-center">
+                                  <div className="text-lg font-bold text-restaurant-gold">
+                                    {item.price === 0 ? 'Incluida' : `€${item.price.toFixed(2)}`}
+                                  </div>
+                                  {quantity > 0 && item.price > 0 && (
+                                    <div className="text-sm text-restaurant-text-light mt-1">
+                                      Total: €{(item.price * quantity).toFixed(2)}
+                                    </div>
+                                  )}
+                                  {quantity > 0 && item.price === 0 && (
+                                    <div className="text-sm text-restaurant-text-light mt-1">
+                                      Incluida
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Navegación */}
@@ -916,7 +1281,7 @@ const SplitBill = () => {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-restaurant-gold to-restaurant-bronze rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-20 h-20 bg-restaurant-earth rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl border-4 border-restaurant-light-wood">
             <span className="text-3xl">📊</span>
           </div>
           <h1 className="section-title">Resumen de la cuenta</h1>
@@ -965,7 +1330,7 @@ const SplitBill = () => {
                   </div>
                   
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-restaurant-gold">
+                    <div className="text-2xl font-bold text-restaurant-earth">
                       €{totals[diner.id]?.toFixed(2) || '0.00'}
                     </div>
                   </div>
@@ -983,7 +1348,7 @@ const SplitBill = () => {
                           <div className="flex items-center space-x-2">
                             <span className={`w-2 h-2 rounded-full ${
                               product.type === 'individual' ? 'bg-restaurant-earth' : 
-                              product.type === 'shared' ? 'bg-restaurant-gold' :
+                              product.type === 'shared' ? 'bg-restaurant-wood' :
                               product.type === 'extra-tapas' ? 'bg-orange-500' : 'bg-restaurant-earth'
                             }`}></span>
                             <span className="text-restaurant-text">
@@ -1006,7 +1371,7 @@ const SplitBill = () => {
                             )}
                           </div>
                           <div className="text-right">
-                            <span className="font-semibold text-restaurant-gold">
+                            <span className="font-semibold text-restaurant-earth">
                               €{product.totalPrice.toFixed(2)}
                             </span>
                             {product.type === 'shared' && (

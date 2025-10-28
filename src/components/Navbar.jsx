@@ -1,60 +1,51 @@
 import { Link, useLocation } from 'react-router-dom';
+import { Home, Menu, Calculator } from 'lucide-react';
 
 /**
  * Componente de navegación principal
- * Muestra el logo y enlaces de navegación
+ * Barra de navegación centrada con iconos modernos
  */
 const Navbar = () => {
   const location = useLocation();
   
   return (
-    <nav className="bg-gradient-to-r from-white to-restaurant-cream shadow-xl sticky top-0 z-50 border-b border-restaurant-light-wood/30">
+    <nav className="bg-gradient-to-b from-white via-restaurant-cream to-white/80 backdrop-blur-sm shadow-lg sticky top-0 z-50 border-b border-restaurant-light-wood/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo del restaurante */}
-          <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
-            <div className="w-12 h-12 bg-gradient-to-br from-restaurant-earth to-restaurant-wood rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">🍽️</span>
-            </div>
-            <span className="font-display text-xl font-bold text-restaurant-text hover:text-restaurant-earth transition-colors">
-              Smart Cart
-            </span>
-          </Link>
-          
-          {/* Enlaces de navegación */}
-          <div className="flex space-x-1 sm:space-x-3">
+        <div className="flex justify-center items-center h-16">
+          {/* Enlaces de navegación centrados */}
+          <div className="flex space-x-2 sm:space-x-4">
             <Link
               to="/"
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center ${
+              className={`relative px-4 sm:px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-2 ${
                 location.pathname === '/'
-                  ? 'bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white shadow-lg transform scale-105'
-                  : 'text-restaurant-text-light hover:bg-restaurant-light-wood hover:text-restaurant-earth hover:shadow-md'
+                  ? 'bg-gradient-to-r from-restaurant-earth via-restaurant-wood to-restaurant-earth text-white shadow-lg transform scale-105'
+                  : 'text-restaurant-text-light hover:bg-restaurant-light-wood/50 hover:text-restaurant-earth hover:shadow-md'
               }`}
             >
-              <span>🏠</span>
-              <span className="ml-2">Inicio</span>
+              <Home size={18} className="flex-shrink-0" />
+              <span>Inicio</span>
             </Link>
             <Link
               to="/carta"
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center ${
+              className={`relative px-4 sm:px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-2 ${
                 location.pathname === '/carta'
-                  ? 'bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white shadow-lg transform scale-105'
-                  : 'text-restaurant-text-light hover:bg-restaurant-light-wood hover:text-restaurant-earth hover:shadow-md'
+                  ? 'bg-gradient-to-r from-restaurant-earth via-restaurant-wood to-restaurant-earth text-white shadow-lg transform scale-105'
+                  : 'text-restaurant-text-light hover:bg-restaurant-light-wood/50 hover:text-restaurant-earth hover:shadow-md'
               }`}
             >
-              <span>📋</span>
-              <span className="hidden sm:inline ml-2">Carta</span>
+              <Menu size={18} className="flex-shrink-0" />
+              <span>Carta</span>
             </Link>
             <Link
               to="/dividir-cuenta"
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center ${
+              className={`relative px-4 sm:px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-2 ${
                 location.pathname === '/dividir-cuenta'
-                  ? 'bg-gradient-to-r from-restaurant-earth to-restaurant-wood text-white shadow-lg transform scale-105'
-                  : 'text-restaurant-text-light hover:bg-restaurant-light-wood hover:text-restaurant-earth hover:shadow-md'
+                  ? 'bg-gradient-to-r from-restaurant-earth via-restaurant-wood to-restaurant-earth text-white shadow-lg transform scale-105'
+                  : 'text-restaurant-text-light hover:bg-restaurant-light-wood/50 hover:text-restaurant-earth hover:shadow-md'
               }`}
             >
-              <span>💰</span>
-              <span className="hidden sm:inline ml-2">Dividir</span>
+              <Calculator size={18} className="flex-shrink-0" />
+              <span>Dividir</span>
             </Link>
           </div>
         </div>

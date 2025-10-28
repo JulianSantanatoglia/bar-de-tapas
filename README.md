@@ -1,4 +1,4 @@
-# 🍽️ Smart Cart - Carta digital inteligente
+# 🍽️ Divly - Divide tu cuenta de forma inteligente
 
 Una aplicación web moderna para restaurantes que combina carta digital con sistema de división de cuentas.
 
@@ -192,7 +192,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 📞 Contacto
 
-- **Proyecto:** Smart Cart - Carta digital
+- **Proyecto:** Divly - Divide tu cuenta de forma inteligente
 - **Versión:** 1.0.0
 - **Tecnología:** React + Vite + Tailwind CSS
 

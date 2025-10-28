@@ -29,13 +29,13 @@ const MenuItem = ({
   return (
     <div className="group p-6 border-b border-restaurant-light-wood/30 hover:bg-gradient-to-r hover:from-restaurant-cream/50 hover:to-restaurant-light-wood/30 transition-all duration-300 hover:shadow-md">
       {/* Información del producto */}
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center space-x-3 mb-2">
-            <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
+            <span className="text-2xl group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
               {getCategoryIcon(item.category)}
             </span>
-            <h3 className="font-display text-xl font-semibold text-restaurant-text group-hover:text-restaurant-earth transition-colors">
+            <h3 className="font-display text-xl font-semibold text-restaurant-text group-hover:text-restaurant-earth transition-colors break-words">
               {item.name}
             </h3>
           </div>
@@ -64,15 +64,15 @@ const MenuItem = ({
           )}
         </div>
 
-        {/* Precio con diseño mejorado */}
-        <div className="text-right ml-4">
-          <div className="bg-gradient-to-br from-restaurant-gold to-restaurant-bronze text-white px-4 py-2 rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-            <span className="font-bold text-lg">
+        {/* Precio con diseño rústico mejorado */}
+        <div className="flex-shrink-0 text-right">
+          <div className="bg-restaurant-earth text-white px-3 py-1.5 rounded-lg shadow-md group-hover:shadow-lg transition-all duration-300 whitespace-nowrap">
+            <span className="font-bold text-sm">
               {item.price === 0 ? 'Incluida' : `€${item.price.toFixed(2)}`}
             </span>
           </div>
           {item.price === 0 && (
-            <p className="text-xs text-restaurant-text-light mt-1">
+            <p className="text-xs text-restaurant-text-light mt-1 whitespace-nowrap">
               con bebida
             </p>
           )}

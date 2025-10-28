@@ -9,7 +9,7 @@ export default defineConfig({
     extend: {
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'display': ['Poppins', 'system-ui', 'sans-serif'],
+        'display': ['Outfit', 'Poppins', 'system-ui', 'sans-serif'],
       },
       colors: {
         'restaurant': {
